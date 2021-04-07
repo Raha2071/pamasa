@@ -615,40 +615,38 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="mb-4">
-												<img src="<?=base_url('')?>/assets/global_assets/images/logo_demo.png" class="mb-3 mt-2" alt="" style="width: 120px;">
-												<ul class="list list-unstyled mb-0">
+												<img src="<?=base_url('')?>/assets/global_assets/images/pamasa.jpeg" class="mb-3 mt-2" alt="" style="width: 120px;">
+												<!-- <ul class="list list-unstyled mb-0">
 													<strong><?=$clients['names'];?></strong>
-													<br>Addresse: <?=$clients['location'];?>									</ul>
+													<br>Addresse: <?=$clients['location'];?>
+												</ul> -->
 											</div>
 										</div>
 
-										<div class="col-sm-6">
-											<div class="mb-4">
-												<div class="text-sm-right">
-													<h4 class="text-primary mb-2 mt-md-2">Branche #<?=$clients['id'];?></h4>
-													<ul class="list list-unstyled mb-0">
-														<li>Date: <span class="font-weight-semibold"><?= date('d-m-Y h:i:s');?></span></li>
-													</ul>
+											<div class="col-sm-6">
+												<div class="mb-4">
+													<div class="text-sm-right">
+														<h4 class="text-primary mb-2 mt-md-2">Branche ID: <?=$clients['id'];?></h4>
+															<ul class="list list-unstyled mb-0">
+																<li><i>Noms du Branche: <?=$clients['names'];?></i></li>
+																<!-- <li>Code: <i> <?=$clients['id'];?></i></li> -->
+																<li>Addresse:<i> <?=$clients['location'];?></i></li>
+															</ul>
+														<ul class="list list-unstyled mb-0">
+															
+															<li>Date: <span class="font-weight-semibold"><?= date('d-m-Y h:i:s');?></span></li>
+														</ul>
+													</div>
 												</div>
 											</div>
-										</div>
 									</div>
 									<div class="d-md-flex flex-md-wrap">
-
+<!-- 
 							<div class="mb-2 ml-auto">
-								<span class="text-muted">Details:</span>
+								<span class="text-muted">Infos:</span>
 								<div class="d-flex flex-wrap wmin-md-400">
-									<ul class="list list-unstyled mb-0">
-										<li><h5 class="my-2">Chef:</h5></li>
-										<li>Bank name:</li>
-										<li>Country:</li>
-										<li>City:</li>
-										<li>Address:</li>
-										<li>IBAN:</li>
-										<li>SWIFT code:</li>
-									</ul>
 								</div>
-							</div>
+							</div> -->
 						</div>
 								</div>
 

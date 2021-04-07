@@ -1,6 +1,6 @@
 <!-- Highlighting rows and columns -->
 		<div class="row">
-			<div class="product-list col-xl-5">
+			<div class="product-list col-xl-6">
 					<!-- /reseach result -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
@@ -45,7 +45,7 @@
 					</table>
 				</div>
 							</div>
-				<div class="col-xl-7">
+				<div class="col-xl-6">
 				<div class="card">
 					<div class="card-header header-elements-inline">
 						<h5 class="card-title">Enregistrement du Medicament</h5>
@@ -69,14 +69,14 @@
 										<div class="form-group row">
 											<label class="col-lg-3 col-form-label">Nom du Mdc.</label>
 											<div class="col-lg-9">
-												<input type="text" class="form-control" placeholder="Medicament"name="names">
+												<input type="text" class="form-control" placeholder="Medicament"name="names" required>
 											</div>
 										</div>
 
 										<div class="form-group row">
 											<label class="col-lg-3 col-form-label">Type du Mdc:</label>
 											<div class="col-lg-9">
-											<select name="category" class="form-control select2">
+											<select name="category" class="form-control select2" required>
 												<option selected="" desabled="">Medicament...</option>
 												<?php foreach($category as $show):
 												echo '<option value="'.$show["id"].'">'.$show['names'].'</option>';
@@ -88,14 +88,14 @@
 										<div class="form-group row">
 											<label class="col-lg-3 col-form-label">Quantité:</label>
 											<div class="col-lg-9">
-											<input type="text" class="form-control" placeholder="Quantité"name="quantity">
+											<input type="text" class="form-control" placeholder="Quantité"name="quantity" required>
 											</div>
 										</div>
 
 										<div class="form-group row" id="pieces">
 											<label class="col-lg-3 col-form-label">Cartons de:</label>
 											<div class="col-lg-9">
-											<input type="text" class="form-control" placeholder="pieces de cartons"name="qtypieces">
+											<input type="text" class="form-control" placeholder="pieces de cartons"name="qtypieces" required>
 											</div>
 										</div>
 									</fieldset>
@@ -108,14 +108,14 @@
 										<div class="form-group row">
 											<label class="col-lg-3 col-form-label">PAU</label>
 											<div class="col-lg-9">
-												<input type="text" name="purchasedPrice" placeholder="Prix d'Achat Unitaire" class="form-control">
+												<input type="text" name="purchasedPrice" placeholder="Prix d'Achat Unitaire" class="form-control" required>
 											</div>
 										</div>
 
 										<div class="form-group row">
 											<label class="col-lg-3 col-form-label">PVU</label>
 											<div class="col-lg-9">
-												<input type="text" placeholder="Prix de Vente Unitaire" name="sellingPrice" class="form-control">
+												<input type="text" placeholder="Prix de Vente Unitaire" name="sellingPrice" class="form-control"required>
 											</div>
 										</div>
 

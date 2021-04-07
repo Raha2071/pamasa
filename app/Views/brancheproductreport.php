@@ -26,8 +26,8 @@
                         <form id="generalReportForm">
                         <div class="form-group form-group-feedback form-group-feedback-left">
                                 Branche:
-                                <select class="select2" style="width: 100%;" name="branche" required>
-										<option selected="" desabled="">Branche...</option>
+                                <select class="branche select2" style="width: 100%;" name="branche" required>
+										<option selected="" desabled="">selectionner...</option>
 										<?php foreach($branche as $show):
 										echo '<option value="'.$show["id"].'">'.$show['names'].'</option>';
 										 endforeach;?>
@@ -37,11 +37,7 @@
                             </div>
                             <div class="form-group form-group-feedback form-group-feedback-left">
                             Medicament:
-                                <select class="select2" style="width: 100%;" name="product" required>
-										<option selected="" desabled="">Medicament...</option>
-										<?php foreach($product as $show):
-										echo '<option value="'.$show["id"].'">'.$show['names'].'</option>';
-										 endforeach;?>
+                                <select id="medc" class="select2" style="width: 100%;" name="product" required>
 								</select>
                                 <div class="form-control-feedback">
                                 </div>
@@ -171,7 +167,9 @@
 					$("#productTable tbody").children().remove()
 					row="";
 					total=0;
-					$.each(data, function (index, obj) {
+					
+                    if(!data.error){
+                        $.each(data, function (index, obj) {
 						var amount =obj.qty*obj.unitprice;
 						total+=parseInt(amount  );
 						row += "<tr>" +
@@ -186,12 +184,17 @@
 							"</tr>";
 						})
 						$("#reportTable tbody").html(row);
-						$("#total").html(total)
+						$("#total").html(total); 
+                    }
+                    else{
+                        $("#reportTable tbody").html(data.error)
+
+                    }
 				}
 			});
 		});
-        $(".select2").on("change",function(){
-            var id = $(".select2 option:selected").val();
+        $(".branche").on("change",function(){
+            var id = $(".branche option:selected").val();
             var info =''
             $.getJSON("<?=base_url('/brancheinfo');?>/"+id,function(data){
                 var status = data.status;
@@ -209,6 +212,16 @@
                          '<h5 class="media-title font-weight-semibold">Status: '+status+'</h5>'; 
                 $(".brancheInfo").html(info)
             })
+            if(id !=''){
+                var option =''
+                $.getJSON("<?=base_url('/getBrancheProduct');?>/"+id,function(data){
+                    option+="<option selected='' desabled=''>selectionner...</option>"
+                    $.each(data,function(index,obj){
+                        option+="<option value='"+obj.productId+"'>"+obj.names+"</option>"
+                    })
+                    $("#medc").html(option)
+                })
+            }
         })
         function printR(printReport){
 		document.getElementById("printButton").style.display = "none";

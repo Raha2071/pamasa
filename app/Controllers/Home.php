@@ -436,7 +436,7 @@ class Home extends BaseController
 		->where('products.id', $id);
 		try {
 			$data = $builder->get()->getRowArray();
-			echo json_encode($data);
+			return $this->response->setJSON($data);
 		} catch (\ErrorException $e) {
 			echo '{"error":' . $e->getMessage() . '}';
 		}
@@ -729,6 +729,14 @@ class Home extends BaseController
 		$data['title']='Rapport';
 		$data['content'] = view('brancheproductreport',$data);
 		return view('base',$data);
+	}
+	public function getBrancheProduct($id = null){
+		$sMdl = new BrancheProduct();
+		$information = $sMdl->select("brancheproduct.productId,st.names,b.brancheId")
+		->join("brancheproductinfo b","brancheproduct.infoId=b.id")
+		->join("products st", "brancheproduct.productId=st.id")
+		->where("b.brancheId",$id)->get()->getResultarray();
+		return $this->response->setJSON($information);
 	}
 	public function generalReportForm(){
 		$mMdl= new InvoiceModel();

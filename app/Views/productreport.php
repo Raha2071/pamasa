@@ -25,9 +25,9 @@
                     <div class="card-body">
                         <form id="generalReportForm">
                         <div class="form-group form-group-feedback form-group-feedback-left">
-                                Branche:
+                                Medicament:
                                 <select class="select2" style="width: 100%;" name="product" required>
-										<option selected="" desabled="">Branche...</option>
+										<option selected="" desabled="">Mdc...</option>
 										<?php foreach($product as $show):
 										echo '<option value="'.$show["id"].'">'.$show['names'].'</option>';
 										 endforeach;?>
@@ -74,10 +74,11 @@
                         </a>
 
                         <div class="media-body">
-                            <h5 class="media-title font-weight-semibold">Rapport General
-                            </h5>
-                            <div class="brancheInfo">
-                            </div>
+                            <h5 class="media-title font-weight-semibold">Rapport General Selon Medicament</h5>
+                            <h5 class="media-title font-weight-semibold">Head-quater</h5>
+                            <h5 class="media-title font-weight-semibold">Butembo</h5>
+                            <h5 class="media-title font-weight-semibold">Nord-kivu</h5>
+                            <h5 class="media-title font-weight-semibold">Kyowbwe</h5>
                             <ul class="list-inline list-inline-dotted text-muted mb-0">
                                 <li class="list-inline-item">Date: <?=date('Y-m-d');?></li>
                             </ul>
@@ -179,26 +180,26 @@
 				}
 			});
 		});
-        $(".select2").on("change",function(){
-            var id = $(".select2 option:selected").val();
-            var info =''
-            $.getJSON("<?=base_url('/brancheinfo');?>/"+id,function(data){
-                var status = data.status;
-                    switch (status){
-                            case '1':
-                                status ='Active';
-                            break;
-                            case '0':
-                                status ='blocquer';
-                            break;  
-                        }
-                 info +='<h5 class="media-title font-weight-semibold">Branche: '+data.names+'</h5>'+
-                         '<h5 class="media-title font-weight-semibold">Location: '+data.location+'</h5>'+
-                         '<h5 class="media-title font-weight-semibold">Gerant: '+data.user+'</h5>'+
-                         '<h5 class="media-title font-weight-semibold">Status: '+status+'</h5>'; 
-                $(".brancheInfo").html(info)
-            })
-        })
+        // $(".select2").on("change",function(){
+        //     var id = $(".select2 option:selected").val();
+        //     var info =''
+        //     $.getJSON("<?=base_url('/brancheinfo');?>/"+id,function(data){
+        //         var status = data.status;
+        //             switch (status){
+        //                     case '1':
+        //                         status ='Active';
+        //                     break;
+        //                     case '0':
+        //                         status ='blocquer';
+        //                     break;  
+        //                 }
+        //          info +='<h5 class="media-title font-weight-semibold">Branche: '+data.names+'</h5>'+
+        //                  '<h5 class="media-title font-weight-semibold">Location: '+data.location+'</h5>'+
+        //                  '<h5 class="media-title font-weight-semibold">Gerant: '+data.user+'</h5>'+
+        //                  '<h5 class="media-title font-weight-semibold">Status: '+status+'</h5>'; 
+        //         $(".brancheInfo").html(info)
+        //     })
+        // })
         function printR(printReport){
 		document.getElementById("printButton").style.display = "none";
 		var printContents = document.getElementById('printReport').innerHTML;
