@@ -37,7 +37,7 @@
 								<td><?=$product['id'];?></td>
 								<td><span><?=$product['id'];?></span></td>
 								<td class="text-center">
-									<button class="view-archive btn-success btn-sm btn" data-id="<?=$product['id'];?>">View</button>
+									<button class="view-archive btn-success btn-sm btn" data-id="<?=$product['id'];?>">Vue</button>
 									
 								</td>
 							</tr>
@@ -83,11 +83,16 @@
 									<div class="text-sm-left">
 									<ul class="list list-unstyled mb-0">
 											<li>Date: <span class="font-weight-semibold"><?= date('d-m-Y H:i:s');?></span></li>
-										</ul>
-										<ul class="list list-unstyled mb-0">
+									</ul>
+									<ul class="list list-unstyled mb-0">
 										<h4 class="mb-2 mt-md-2"><small>A</small></h4>
-											<span  id='clientInfo'></span></span>
-										</ul>
+										<span  id='clientInfo'>
+											<li> Noms: <?=$info['names'];?></li>
+											<li> Phone: <?=$info['phone'];?></li>
+											<li>Adrresse: <?=$info['address'];?></li>
+											<li>Email: <?=$info['email'];?></li>
+										</span>
+									</ul>
 										
 									</div>
 								</div>
@@ -152,6 +157,7 @@
 			var row ='';
 			var total =0
 			var id=$(this).data('id');
+			$("#invoiceN").html(id);
 			$.getJSON("<?= base_url('getClientArchive');?>/"+id,function(data){
 					$.each(data, function (index, obj) {
 						$("#productTable tbody").children().remove()

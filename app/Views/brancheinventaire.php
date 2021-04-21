@@ -74,7 +74,7 @@
                         </a>
 
                         <div class="media-body">
-                            <h5 class="media-title font-weight-semibold">Rapport General
+                            <h5 class="media-title font-weight-semibold">Inventaire General du Branche
                             </h5>
                             <div class="brancheInfo">
                             </div>
@@ -92,18 +92,15 @@
                     </div>
                     <div class="mb-4">
                                 <div class="form-group">
-									<table border='1' width="100%" id="reportTable">
+									<table class="table" id="reportTable">
 										<thead>
 										<tr>
                                             <th>#</th>
-											<th>Designation</th>
-                                            <th>Quantite</th>
-											<th>PUV</th>
-                                            <th>PTV</th>
-											<th>Branche</th>
-											<th>Agent</th>
-											<th>Date</th>
-                                            <th>Total</th>
+                                            <th>Designation</th>
+                                            <th>Quantite Initiale</th>
+                                            <th>Quantite Vendue</th>
+                                            <th>Qunatite Disponible</th>
+                                            <th>Date</th>
 										</tr>
 										</thead>
 										<tbody>
@@ -111,7 +108,6 @@
 									</table>
 								</div>
                     </div>
-                    <div class="d-sm-flex">
                 </div>
             </div>
             <!-- /details -->
@@ -133,7 +129,7 @@
 			var total=0
 			event.preventDefault();
 			$.ajax({
-				url: "<?php echo base_url('/brancheReportForm');?>",
+				url: "<?php echo base_url('/brancheInventaireForm');?>",
 				method: 'POST',
 				data: new FormData(this),
 				contentType: false,
@@ -145,24 +141,19 @@
 					row="";
 					total=0;
 					$.each(data, function (index, obj) {
-						var amount =obj.qty*obj.unitprice;
-						total+=parseInt(amount  );
+						var amount =obj.qty-obj.usedQuantity;
+						// total+=parseInt(amount  );
 						row += "<tr>" +
 								"<td>"+(index+1) + "</td>" +
-								"<td>" + obj.produit +"-" +obj.category+ "</td>" +
+								"<td>" + obj.produit +"</td>" +
 								"<td class='text-center'>" + obj.qty + "</td>" +
-								"<td class='text-center '>" + obj.unitprice + "</td>" +
+								"<td class='text-center '>" + obj.usedQuantity + "</td>" +
 								"<td class='text-center'>" + amount + "</td>" +
-                                "<td class='text-center '>" + obj.branche+ "</td>" +
-                                "<td class='text-center '>" + obj.user+ "</td>" +
                                 "<td class='text-center'>" + obj.created_at+ "</td>" +
 							"</tr>";
 						})
-                        row+="<tr>"+
-                            "<td class='text-center' colspan='8'>Total</td>"+
-                            "<td class='text-center' rowspan='"+(data.length)+"'>" +total+ "</td>" +
-                            "</tr>";
 						$("#reportTable tbody").html(row);
+						// $("#total").html(total)
 				}
 			});
 		});

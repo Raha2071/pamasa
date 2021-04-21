@@ -89,8 +89,8 @@
 	
 	<div class="navbar navbar-expand-md navbar-dark">
 		<div class="navbar-brand wmin-200">
-			<a href="index-2.html" class="d-inline-block">
-				<img src="<?=base_url('');?>/assets/global_assets/images/rahaf.png" alt="">
+			<a href="<?=base_url('dashboard');?>" class="d-inline-block">
+				<img src="<?=base_url('');?>/assets/global_assets/images/rahaf.png" class="brancd-image" style="heigth:100%" >
 			</a>
 		</div>
 
@@ -107,7 +107,7 @@
 			<ul class="navbar-nav">
 				<li class="nav-item">
 					<a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
-						<i class="icon-paragraph-justify3"></i>
+						<!-- <i class="icon-paragraph-justify3"></i>	 -->
 					</a>
 				</li>
 
@@ -316,7 +316,7 @@
 				<li class="nav-item dropdown dropdown-user">
 					<a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
 						<img src="<?=base_url('');?>/assets/global_assets/images/demo/users/face11.jpg" class="rounded-circle mr-2" height="34" alt="">
-						<span>Victoria</span>
+						<span><?=$_SESSION['shop_name'];?></span>
 					</a>
 
 					<div class="dropdown-menu dropdown-menu-right">
@@ -397,7 +397,6 @@
 											<a href="<?=base_url('brancheproductreport');?>" class="dropdown-item"><i class="icon-page-break2"></i> <span>Rapport selon Mdc et Branche</span></a>
 										</div>
 									</li>
-
 									<li class="nav-item dropdown">
 										<a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
 											<i class="icon-sort-numeric-asc mr-2"></i>
@@ -408,10 +407,23 @@
 											<a href="<?=base_url('branchegeneralreport');?>" class="dropdown-item"><i class="icon-indent-decrease2"></i> <span>Rapport General</span></a>
 										</div>
 									</li>
+
+									<li class="nav-item dropdown">
+										<a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
+											<i class="icon-sort-amount-desc mr-2"></i>
+											Inventaire
+										</a>
+
+										<div class="dropdown-menu">
+											<a href="<?=base_url('inventaire');?>" class="dropdown-item"><i class="icon-indent-decrease2"></i> <span>Inventaire General</span></a>
+											<div class="dropdown-divider"></div>
+											<a href="<?=base_url('brancheinventaire');?>" class="dropdown-item"><i class="icon-menu3"></i> <span>Inventaire Branches</span></a>	
+										</div>
+									</li>
 									<li class="nav-item dropdown">
 										<a href="<?=base_url('sellings');?>" class="navbar-nav-link">
 											<i class="icon-stack mr-2"></i>
-											Ventes:
+											Nouvelle Vente
 										</a>
 									</li>
 								</ul>

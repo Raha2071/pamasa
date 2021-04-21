@@ -21,20 +21,33 @@
 				<th>Nom</th>
 				<th>Addresse</th>
 				<th>Status</th>
-				<th></th>
+				<th>Gerant</th>
 				<th class="text-center"></th>
 			</tr>
 				</thead>
 				<tbody>
 				<?php
+				function status($stattus){
+					switch ($stattus) {
+						case '2':
+							echo "<span class='badge badge-success'>Fermer</span>";
+							break;
+						case '1':
+							echo "<span class='badge badge-primary'>Active</span>";
+							break;
+						
+						default:
+							break;
+					}
+				}
 				$i=1;
 				foreach($branches as $branche){?>
 					<tr>
 						<td><?=$i;?></td>
 						<td><?=$branche['names'];?></td>
 						<td><?=$branche['location'];?></td>				
-						<td><?=$branche['status'];?></td>
-					<td></td>
+						<td><?=status($branche['status']);?></td>
+						<td><?=$branche['user'];?></td>
 					<td>
 						<div class="list-icons">
 							<span class="edit-button list-icons-item icon icon-pencil " data-id="<?=$branche['id'];?>"></span>
@@ -51,7 +64,7 @@
 <div class="col-md-4">
 	<div class="card">
 		<div class="card-header header-elements-inline">
-			<h5 class="card-title">Nouvelle Branche</h5>
+			<h5 class="card-title">Formulaire-Branche</h5>
 			<div class="header-elements">
 				<div class="list-icons">
 					<a class="list-icons-item" data-action="collapse"></a>
@@ -95,7 +108,7 @@
 				</div>
 				<div class="form-group">
 					<button type="reset" class="btn btn-danger">Annuler</button>
-					<button type="submit" class="btn btn-primary">Ajouter</button>
+					<button type="submit" class="btn btn-primary">Enregistrer</button>
 
 				</div>
 			</form>

@@ -377,11 +377,7 @@
 	</div>
 	<!-- /page header -->
     <!-- Highlighting rows and columns -->
-
-
-    <div class="content-wrapper content col-md-12">
-        <!-- Dashboard content -->
-		<div class="col-md-9">
+	<div class="col-md-9">
 						<div class="navbar navbar-expand-lg navbar-light navbar-component rounded">
 							<div class="text-center d-lg-none w-100">
 								<button type="button" class="navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#navbar-filter">
@@ -428,7 +424,6 @@
 											<a href="<?=base_url('brancheproductreport');?>" class="dropdown-item"><i class="icon-page-break2"></i> <span>Rapport selon Mdc et Branche</span></a>
 										</div>
 									</li>
-
 									<li class="nav-item dropdown">
 										<a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
 											<i class="icon-sort-numeric-asc mr-2"></i>
@@ -439,16 +434,32 @@
 											<a href="<?=base_url('branchegeneralreport');?>" class="dropdown-item"><i class="icon-indent-decrease2"></i> <span>Rapport General</span></a>
 										</div>
 									</li>
+
+									<li class="nav-item dropdown">
+										<a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
+											<i class="icon-sort-amount-desc mr-2"></i>
+											Inventaire
+										</a>
+
+										<div class="dropdown-menu">
+											<a href="<?=base_url('inventaire');?>" class="dropdown-item"><i class="icon-indent-decrease2"></i> <span>Inventaire General</span></a>
+											<div class="dropdown-divider"></div>
+											<a href="<?=base_url('brancheinventaire');?>" class="dropdown-item"><i class="icon-menu3"></i> <span>Inventaire Branches</span></a>	
+										</div>
+									</li>
 									<li class="nav-item dropdown">
 										<a href="<?=base_url('sellings');?>" class="navbar-nav-link">
 											<i class="icon-stack mr-2"></i>
-											Ventes:
+											Nouvelle Vente
 										</a>
 									</li>
 								</ul>
 							</div>
 						</div>
 					</div>
+    <div class="content-wrapper content col-md-12">
+        <!-- Dashboard content -->
+		
 						<!-- /filter toolbar -->
 					<div class="row">
 							<div class="product-list col-xl-6">
@@ -520,9 +531,9 @@
 										<thead>
 											<tr>
 												<th>#</th>
-												<th>Nom</th>
-												<th>Quantite</th>
-												<th>PVU</th>
+												<th>Code</th>
+												<th>Fait par</th>
+												<th>Date</th>
 												<th></th>
 												<th></th>
 											</tr>
@@ -533,9 +544,9 @@
 										foreach($archives as $product){?>
 											<tr>
 												<td><?=$i;?></td>
-												<td></td>
+												<td><?=$product['archiveId'];?></td>
+												<td><?=$product['names'];?></td>
 												<td><?=$product['created_at'];?></td>
-												<td><?=$product['createdBy'];?></td>
 												<td><span><?=$product['archiveId'];?></span></td>
 												<td class="text-center">
 													<button class="view-archive btn-success btn-sm btn" data-id="<?=$product['archiveId'];?>">View</button>
@@ -733,9 +744,13 @@
 								<form  id="addItemForm">
 								<input type="hidden" name="Id" value="<?=$clients['id'];?>">
 								<input type="hidden" name="brancheId" id="brancheId">
+								<div class="form-group">
+									<label>Barcode: <span class="text-muted"></span></label>
+									<input type="text" id="barcodeId" name="barcode" class="form-control">
+								</div>
 								<div class="form-group ">
 									<label>Produit: s</label>
-									<select class="select2" style="width: 100%;" name="itemId" id="itemId">
+									<select class="select2" style="width: 100%;" name="itemId" id="itemId" required="">
 										<option selected="" desabled="">Product...</option>
 										<?php foreach($products as $show):
 										echo '<option value="'.$show["id"].'">'.$show['names'].'</option>';
@@ -744,16 +759,16 @@
 								</div>
 								<div class="form-group">
 									<label>Qunatite: <span class="text-muted">Entrer un la qty du produit</span></label>
-									<input type="text" value="1" name="quantity" class="form-control touchspin-set-value">
+									<input type="text" value="1" required="" name="quantity" class="form-control">
 								</div>
 
 								<div class="form-group">
 									<label>Prix de Vente global<span class="text-muted"></span></label>
-									<input type="text" value="1" name="purchasedPrice" class="form-control touchspin-prefix">
+									<input type="text" value="1" name="purchasedPrice" class="form-control" required="">
 								</div>
 								<div class="form-group">
 									<label>Dernier prix de Vente <span class="text-muted">En cas de reduction</span></label>
-									<input type="text" value="1" name="sellprice" class="form-control touchspin-prefix">
+									<input type="text" value="1" name="sellprice" class="form-control" required="">
 								</div>
 								<div class="form-group" id="details">
 									<table class="" border="1" width="100%">
@@ -809,7 +824,7 @@
 										<div class="col">
 											<button type="button" class="btn bg-warning-400 btn-block btn-float">
 												<i class="icon-stats-bars icon-2x"></i>
-												<span>Statistics</span>
+												<span>Fiche de Stock</span>
 											</button>
 
 											<button type="button" class="btn bg-blue btn-block btn-float">
@@ -881,6 +896,21 @@
 			$.getJSON("<?=base_url('viewDetails/')?>"+id,function(data){
 				var price =data.sellingPrice
 				var qty = data.quantity-data.usedQuantity
+				row +="<tr class='text-center'><td class='bg-warning'>"+price+"</td>"+"<td id='etailsqty' class='bg-success'>"+qty+"</td>"+
+					"</tr>";
+				$("#details tbody").html(row)
+			})
+		})
+		$(document).on("change","#barcodeId",function(){
+			const id = $("#barcodeId").val();
+			// alert(id)
+			var row=''
+			$.getJSON("<?=base_url('getBarcode/')?>"+id,function(data){
+				var price =data.sellingPrice
+				var qty = data.quantity-data.usedQuantity
+				$("#addItemForm [name='quantity']").val(data.quantity).change()
+				$("#addItemForm [name='purchasedPrice']").val(data.sellingPrice).change()
+				$("#addItemForm select").val(data.id).prop({selected:true}).trigger("change");
 				row +="<tr class='text-center'><td class='bg-warning'>"+price+"</td>"+"<td id='etailsqty' class='bg-success'>"+qty+"</td>"+
 					"</tr>";
 				$("#details tbody").html(row)

@@ -37,7 +37,7 @@
                             </div>
 
                             <button type="submit" class="btn bg-blue btn-block">
-                                Afficher
+                                Produire
                             </button>
                         </form>
                     </div>
@@ -81,9 +81,9 @@
                     </div>
                     <div class="mb-4">
                                 <div class="form-group">
-									<table class="table" id="reportTable">
+									<table border='1' width="100%" id="reportTable">
 										<thead>
-										<tr>
+										<tr class="text-center">
                                             <th>#</th>
 											<th>Designation</th>
                                             <th>Quantite</th>
@@ -92,6 +92,7 @@
 											<th>Branche</th>
 											<th>Agent</th>
 											<th>Date</th>
+                                            <th>Total</th>
 										</tr>
 										</thead>
 										<tbody>
@@ -100,23 +101,6 @@
 								</div>
                     </div>
                     <div class="d-sm-flex">
-
-                    <div class="pt-2 mb-3 wmin-md-400 ml-auto">
-						<h6 class="mb-3"></h6>
-										<div class="table-responsive">
-											<table class="table">
-												<tbody>
-													<tr>
-													</tr>
-													<tr>
-														<th></th>
-														<td class=""><h5 class="" id="total"></h5></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-                    </div>
                 </div>
             </div>
             <!-- /details -->
@@ -160,8 +144,12 @@
                                 "<td class='text-center'>" + obj.created_at+ "</td>" +
 							"</tr>";
 						})
+                        
+                        row+="<tr>"+
+                            "<td class='text-center' colspan='8'>Total</td>"+
+                            "<td class='text-center' rowspan='"+(data.length)+"'>" +total+ "</td>" +
+                            "</tr>";
 						$("#reportTable tbody").html(row);
-						$("#total").text(total)
 				}
 			});
 		});

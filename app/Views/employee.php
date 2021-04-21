@@ -1,10 +1,10 @@
 <!-- Highlighting rows and columns -->
 	<div class="row">
-			<div class="product-list col-xl-6">
+			<div class="product-list col-xl-7">
 					<!-- /reseach result -->
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Highlighting rows and columns</h5>
+						<h5 class="card-title">Liste des utilisateurs</h5>
 						<div class="header-elements">
 							<div class="list-icons">
 		                		<a class="list-icons-item" data-action="collapse"></a>
@@ -19,14 +19,28 @@
 							<tr>
 								<th>#</th>
 								<th>Nom</th>
-								<th>quantite</th>
-								<th>PUA</th>
-								<th>PUV</th>
+								<th>Email</th>
+								<th>Telephone</th>
+								<th>Addresse</th>
+								<th>Status</th>
 								<th class="text-center">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
 						<?php
+						function status($stattus){
+							switch ($stattus) {
+								case '2':
+									echo "<span class='badge badge-danger'>Desactive</span>";
+									break;
+								case '1':
+									echo "<span class='badge badge-primary'>Active</span>";
+									break;
+								
+								default:
+									break;
+							}
+						}
 						$i=1;
 						foreach($users as $user){?>
 							<tr>
@@ -35,6 +49,7 @@
 								<td><?=$user['email'];?></td>
 								<td><?=$user['phone'];?></td>
 								<td><span><?=$user['address'];?></span></td>
+								<td><?=status($user['status']);?></td>
 								<td class="text-center">
 									<button class="edit-button btn-success btn-sm btn" data-id="<?=$user['id'];?>">View</button>
 
@@ -45,10 +60,10 @@
 					</table>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-5">
 				<div class="card">
 					<div class="card-header header-elements-inline">
-						<h5 class="card-title">Enregistrement de l'Utilisateur</h5>
+						<h5 class="card-title">Formulaire de l'Utilisateur</h5>
 						<div class="header-elements">
 							<div class="list-icons">
 		                		<a class="list-icons-item" data-action="collapse"></a>
@@ -118,7 +133,7 @@
 							
 										<center><div class="form-group">
 											<button type="reset" class="btn btn-danger">Annuler</button>
-											<button type="submit" class="btn btn-primary">Ajouter</button>
+											<button type="submit" class="btn btn-primary">Enregister</button>
 
 										</div>
 										</fieldset>

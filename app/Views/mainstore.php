@@ -65,7 +65,12 @@
 								<div class="col-md-6">
 									<fieldset>
 										<legend class="font-weight-semibold"><i class="mr-2"></i></legend>
-
+										<div class="form-group row">
+											<label class="col-lg-3 col-form-label">Barcode</label>
+											<div class="col-lg-9">
+												<input type="text" class="form-control" placeholder="barcode" name="barcode" required>
+											</div>
+										</div>
 										<div class="form-group row">
 											<label class="col-lg-3 col-form-label">Nom du Mdc.</label>
 											<div class="col-lg-9">
@@ -77,7 +82,7 @@
 											<label class="col-lg-3 col-form-label">Type du Mdc:</label>
 											<div class="col-lg-9">
 											<select name="category" class="form-control select2" required>
-												<option selected="" desabled="">Medicament...</option>
+												<option selected="" desabled="">Category...</option>
 												<?php foreach($category as $show):
 												echo '<option value="'.$show["id"].'">'.$show['names'].'</option>';
 												endforeach;?>
@@ -181,6 +186,7 @@
 			var id = $(this).data('id');
 			// console.log(id);
 			$.getJSON("<?=base_url('getProduct/');?>"+id,function(data){
+				$("#registerProduct [name='barcode']").val(data.barcode).change();
 				$("#registerProduct [name='productId']").val(data.id).change();
         		$("#registerProduct [name='names']").val(data.names).change();
         		$("#registerProduct [name='quantity']").val(data.quantity).change();

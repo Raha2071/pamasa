@@ -379,7 +379,7 @@
 											<div class="dropdown-divider"></div>
 											<a href="<?=base_url('mainstore');?>" class="dropdown-item"><i class="icon-copy"></i> <span>Main Stcok</span></a>
 											<a href="<?=base_url('branches');?>" class="dropdown-item"><i class="icon-color-sampler"></i> <span>Branches</span></a>
-											<a href="<?=base_url('employee');?>" class="dropdown-item"><i class="icon-users"></i> <span>Employees</span></a>
+											<a href="<?=base_url('employee');?>" class="dropdown-item"><i class="icon-users"></i> <span>Utilisateurs</span></a>
 										</div>
 									</li>
 
@@ -390,14 +390,13 @@
 										</a>
 
 										<div class="dropdown-menu">
-											<a href="<?=base_url('generalreport');?>" class="dropdown-item"><i class="icon-indent-decrease2"></i> <span>Report General</span></a>
+											<a href="<?=base_url('generalreport');?>" class="dropdown-item"><i class="icon-indent-decrease2"></i> <span>Rapport General</span></a>
 											<div class="dropdown-divider"></div>
 											<a href="<?=base_url('branchereport');?>" class="dropdown-item"><i class="icon-menu3"></i> <span>Branches</span></a>	
-											<a href="<?=base_url('productreport');?>" class="dropdown-item"><i class="icon-sort"></i> <span>Report selon Product</span></a>
-											<a href="<?=base_url('brancheproductreport');?>" class="dropdown-item"><i class="icon-page-break2"></i> <span>Report selon Product et Branche</span></a>
+											<a href="<?=base_url('productreport');?>" class="dropdown-item"><i class="icon-sort"></i> <span>Rapport selon Medicament</span></a>
+											<a href="<?=base_url('brancheproductreport');?>" class="dropdown-item"><i class="icon-page-break2"></i> <span>Rapport selon Mdc et Branche</span></a>
 										</div>
 									</li>
-
 									<li class="nav-item dropdown">
 										<a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
 											<i class="icon-sort-numeric-asc mr-2"></i>
@@ -405,13 +404,26 @@
 										</a>
 
 										<div class="dropdown-menu">
-											<a href="<?=base_url('branchegeneralreport');?>" class="dropdown-item"><i class="icon-indent-decrease2"></i> <span>Report General</span></a>
+											<a href="<?=base_url('branchegeneralreport');?>" class="dropdown-item"><i class="icon-indent-decrease2"></i> <span>Rapport General</span></a>
+										</div>
+									</li>
+
+									<li class="nav-item dropdown">
+										<a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
+											<i class="icon-sort-amount-desc mr-2"></i>
+											Inventaire
+										</a>
+
+										<div class="dropdown-menu">
+											<a href="<?=base_url('inventaire');?>" class="dropdown-item"><i class="icon-indent-decrease2"></i> <span>Inventaire General</span></a>
+											<div class="dropdown-divider"></div>
+											<a href="<?=base_url('brancheinventaire');?>" class="dropdown-item"><i class="icon-menu3"></i> <span>Inventaire Branches</span></a>	
 										</div>
 									</li>
 									<li class="nav-item dropdown">
 										<a href="<?=base_url('sellings');?>" class="navbar-nav-link">
 											<i class="icon-stack mr-2"></i>
-											Ventes:
+											Nouvelle Vente
 										</a>
 									</li>
 								</ul>

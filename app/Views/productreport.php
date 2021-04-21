@@ -48,7 +48,7 @@
                             </div>
 
                             <button type="submit" class="btn bg-blue btn-block">
-                                Afficher
+                                Produire
                             </button>
                         </form>
                     </div>
@@ -93,17 +93,17 @@
                     </div>
                     <div class="mb-4">
                                 <div class="form-group">
-									<table class="table" id="reportTable">
+									<table class="" border="1" width="100%" id="reportTable">
 										<thead>
-										<tr>
+										<tr class="text-center">
                                             <th>#</th>
-											<th>Designation</th>
+											<th>Date</th>
+											<th>Branche</th>
+											<th>Agent</th>
                                             <th>Quantite</th>
 											<th>PUV</th>
                                             <th>PTV</th>
-											<th>Branche</th>
-											<th>Agent</th>
-											<th>Date</th>
+                                            <th>Total</th>
 										</tr>
 										</thead>
 										<tbody>
@@ -112,23 +112,6 @@
 								</div>
                     </div>
                     <div class="d-sm-flex">
-
-                    <div class="pt-2 mb-3 wmin-md-400 ml-auto">
-						<h6 class="mb-3"></h6>
-										<div class="table-responsive">
-											<table class="table">
-												<tbody>
-													<tr>
-													</tr>
-													<tr>
-														<th>Total due:</th>
-														<td class=""><h5 class="" id="total"></h5></td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
-									</div>
-                    </div>
                 </div>
             </div>
             <!-- /details -->
@@ -166,17 +149,20 @@
 						total+=parseInt(amount  );
 						row += "<tr>" +
 								"<td>"+(index+1) + "</td>" +
-								"<td>" + obj.produit +"-" +obj.category+ "</td>" +
+                                "<td class='text-center'>" + obj.created_at+ "</td>" +
+                                "<td class='text-center '>" + obj.branche+ "</td>" +
+                                "<td class='text-center '>" + obj.user+ "</td>" +
 								"<td class='text-center'>" + obj.qty + "</td>" +
 								"<td class='text-center '>" + obj.unitprice + "</td>" +
 								"<td class='text-center'>" + amount + "</td>" +
-                                "<td class='text-center '>" + obj.branche+ "</td>" +
-                                "<td class='text-center '>" + obj.user+ "</td>" +
-                                "<td class='text-center'>" + obj.created_at+ "</td>" +
+                                // "<td class='text-center'></td>" +
 							"</tr>";
 						})
+                        row+="<tr>"+
+                            "<td class='text-center' colspan='7'>Total</td>"+
+                            "<td class='text-center' rowspan='"+(data.length+1)+"'>" +total+ "</td>" +
+                            "</tr>";
 						$("#reportTable tbody").html(row);
-						$("#total").html(total)
 				}
 			});
 		});

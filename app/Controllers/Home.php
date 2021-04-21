@@ -92,7 +92,7 @@ class Home extends BaseController
 			$this->session->setFlashdata('email', $email);
 			if ($result != null) {
 				if (password_verify($password, $result->password)) {
-					if ($result->status == 1 || $result->status == 2) {
+					if ($result->status == 1) {
 						$data = array(
 							'shop_name' => $result->names,
 							'shop_email' => $result->email,
@@ -152,7 +152,7 @@ class Home extends BaseController
 		$data = array();
 		$Mdl = new UserModel();
 		$cModel = new BrancheModel();
-		// $data['branche']=$cModel->select('*')->where('branche.id',$brancheId)->get()->getResultArray();
+		$data['branche']=$cModel->select('*')->where('branche.id',$brancheId)->get()->getRowArray();
 		$data['users'] = $Mdl->select('users.*')
 		->join('branche b','users.brancheId=b.id')
 		->where('users.brancheId',$brancheId)
@@ -161,7 +161,7 @@ class Home extends BaseController
 		$data['content'] = view("brancheemployee",$data);
 		return view('base',$data);
 	}
-	public function brancheproducts($id){
+	public function brancheproducts($id=null){
 		$this->_preset();
 		$data = array();
 		$pMdl = new BrancheinfoModel();
@@ -176,8 +176,9 @@ class Home extends BaseController
 				->where("brancheproductinfo.brancheId", $id)
 				->orderBy('in.id','DESC')
 				->get()->getResultArray();
-		$data['archives'] = $pMdl->select("brancheproductinfo.id as archiveId,brancheproductinfo.brancheId,brancheproductinfo.created_at,brancheproductinfo.createdBy")
-		->where('brancheproductinfo.brancheId',$id)->orderBy('id','DESC')->get()->getResultArray();
+		$data['archives'] = $pMdl->select("brancheproductinfo.id as archiveId,brancheproductinfo.brancheId,brancheproductinfo.created_at,brancheproductinfo.createdBy,u.names,u.id")
+		->join("users u","brancheproductinfo.createdBy=u.id")
+		->where('brancheproductinfo.brancheId',$id)->orderBy('archiveId','DESC')->get()->getResultArray();
 		$data['products'] = $Mdls->select('products.id,products.names')->get()->getResultArray();
 		$data['title']='Branche-Products';
 		return view('brancheproduct',$data);
@@ -211,7 +212,7 @@ class Home extends BaseController
 				$info = array(
 					'brancheId' =>$brancheId,
 					'status' =>0,
-					'createdBy' => $this->session->get('shop_id'),
+					'createdBy' => $this->session ->get('shop_id')
 				);
 				$iMdl->insert($info);
         		$branche_id = $iMdl->getInsertID();
@@ -221,7 +222,7 @@ class Home extends BaseController
 					'quantity' => $qty,
 					'sellingprice' => $sellingPrice,
 					'lastprice' => $lastprice,
-					'createdBy' => $this->session ->get('shop_id'),
+					// 'createdBy' => $this->session ->get('shop_id'),
 				);
 				$bMdl->save($records);
 				$brancheTbl = $bMdl->select("brancheproduct.infoId,brancheproduct.lastprice,brancheproduct.id as ids,brancheproduct.productId as proId,brancheproduct.sellingprice
@@ -236,7 +237,7 @@ class Home extends BaseController
 					'quantity' => $qty,
 					'lastprice' => $lastprice,
 					'sellingprice' => $sellingPrice,
-					'createdBy' => $this->session ->get('shop_id'),
+					// 'createdBy' => $this->session ->get('shop_id'),
 				);
 				$bMdl->save($records);
 				$brancheTbl = $bMdl->select("brancheproduct.infoId,brancheproduct.lastprice,brancheproduct.id as ids, brancheproduct.productId as proId,brancheproduct.sellingprice
@@ -281,7 +282,7 @@ class Home extends BaseController
 		$data = array();
 		$Mdl = new UserModel();
 		$cModel = new BrancheModel();
-		$data['branches']=$cModel->select('*')->get()->getResultArray();
+		$data['branches']=$cModel->select('branche.*,u.names as user')->join("users u","branche.employeeId=u.id")->get()->getResultArray();
 		$data['users'] = $Mdl->select('users.id,users.names,users.priviledge,users.status')
 			->where('users.priviledge','2')
 			->get()->getResultArray();
@@ -302,7 +303,8 @@ class Home extends BaseController
 	}
 	public function manipulationProduct(){
 		$this->_preset();
-		$qty = 1;
+		$qty = "";
+		$barcode = $this->request->getPost("barcode");
 		$id = $this->request->getPost("productId");
 		$name = $this->request->getPost("names");
 		$category = $this->request->getPost("category");
@@ -311,7 +313,7 @@ class Home extends BaseController
 		$purchased = $this->request->getPost("purchasedPrice");
 		$sellingPrice = $this->request->getPost("sellingPrice");
 		$desc = $this->request->getPost("description");
-		if ($quantityCarton != "") {
+		if ($quantityCarton != " ") {
 			$qty = $quantityCarton * $quantity;
 		} else {
 			$qty = $quantity;
@@ -323,6 +325,7 @@ class Home extends BaseController
 					"categoryId" => $category,
 					"names" => $name,
 					"quantity" => $qty,
+					"barcode" => $barcode,
 					"purchasedprice" => $purchased,
 					"sellingPrice" => $sellingPrice,
 					"description" => $desc,
@@ -334,6 +337,7 @@ class Home extends BaseController
 					"categoryId" => $category,
 					"names" => $name,
 					"quantity" => $qty,
+					"barcode" => $barcode,
 					"purchasedprice" => $purchased,
 					"sellingPrice" => $sellingPrice,
 					"description" => $desc,
@@ -351,6 +355,16 @@ class Home extends BaseController
 		try {
 			$data = $builder->get()->getRowArray();
 			echo json_encode($data);
+		} catch (\ErrorException $e) {
+			echo '{"error":' . $e->getMessage() . '}';
+		}
+	}
+	public function getBarcode($id=null){
+		$Mdl = new ProduitModel();
+		$builder = $Mdl->select('id,names,quantity,usedQuantity,sellingPrice')->where('barcode',$id);
+		try {
+			$data = $builder->get()->getRowArray();
+			return $this->response->setJSON($data);
 		} catch (\ErrorException $e) {
 			echo '{"error":' . $e->getMessage() . '}';
 		}
@@ -676,11 +690,13 @@ class Home extends BaseController
 
 	}
 	public function invoicearchive($client = null){
+		$cl = new ClientModel();
 		$mdl = new InvoiceModel();
 		$data['invoice'] = $mdl->select("invoices.*,us.names, us.address,us.phone,us.email")
 				->join("clients us", "invoices.clientID=us.id")
 				->where("invoices.clientId", $client)
 				->get()->getResultarray();
+		$data['info'] = $cl->select("*")->where('id',$client)->get()->getRowArray();
 		$data['title']="Facutres client";
 		$data['content'] = view('clientInvoices',$data);
 		return view('base',$data);
@@ -717,6 +733,22 @@ class Home extends BaseController
 		$data['product'] = $mdl->select("id,names")->get()->getResultarray();
 		$data['title']='Rapport';
 		$data['content'] = view("productreport",$data);
+		return view('base',$data);
+	}
+	public function inventaire(){
+		$this->_preset();
+		$data = array();
+		$data['title']='Inventaire';
+		$data['content'] = view("inventaire",$data);
+		return view('base',$data);
+	}
+	public function brancheinventaire(){
+		$this->_preset();
+		$data = array();
+		$mdl = new BrancheModel();
+		$data['branche'] = $mdl->select("id,names")->get()->getResultarray();
+		$data['title']='Inventaire';
+		$data['content'] = view('brancheinventaire',$data);
 		return view('base',$data);
 	}
 	public function brancheproductreport(){
@@ -759,7 +791,22 @@ class Home extends BaseController
 			}
 
 	}
-		public function brancheReportForm(){
+	public function inventaireGeneralForm(){
+		$mMdl= new ProduitModel();
+		$fromDate = $this->request->getPost("fromDate");
+		$untilDate = $this->request->getPost("untilDate");
+		$data= $mMdl->select("products.*,c.names as category")
+			->join("category c","products.categoryId=c.id")
+			->where("products.created_at >=", $fromDate)
+			->where("products.created_at <=", $untilDate)
+			->get()->getResultArray();
+			if (count($data) == 0) {
+				echo '{"error":"Aucune donnée disponible"}';
+			} else {
+				return $this->response->setJSON($data);
+			}
+	}
+	public function brancheReportForm(){
 			$mMdl= new InvoiceModel();
 			$branche = $this->request->getPost("branche");
 			$fromDate = $this->request->getPost("fromDate");
@@ -781,7 +828,28 @@ class Home extends BaseController
 					return $this->response->setJSON($data);
 				}
 
-		}
+	}
+	public function brancheInventaireForm(){
+		$branche = $this->request->getPost("branche");
+		$fromDate = $this->request->getPost("fromDate");
+		$untilDate = $this->request->getPost("untilDate");
+		$pMdl = new BrancheinfoModel();
+		$data= $pMdl->select("brancheproductinfo.*,in.infoId, in.quantity as qty,st.names as produit,st.categoryId,in.usedQuantity,c.names as category")
+				->join("brancheproduct in","brancheproductinfo.id=in.infoId")
+				->join("products st", "in.productId=st.id")
+				->join("category c","st.categoryId=c.id")
+				->where("brancheproductinfo.brancheId", $branche)
+				->where("brancheproductinfo.created_at >=", $fromDate)
+				->where("brancheproductinfo.created_at <=", $untilDate)
+				// ->orderBy('in.id','DESC')
+				->get()->getResultArray();
+			if (count($data) == 0) {
+				echo '{"error":"Aucune donnée disponible"}';
+			} else {
+				return $this->response->setJSON($data);
+			}
+
+	}
 	public function brancheinfo($id=null){
 		$mdl = new BrancheModel();
 		$builder = $mdl->select("branche.*,u.names as user")

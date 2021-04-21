@@ -50,8 +50,10 @@
 					<div class="login-form card mb-0">
 						<div class="card-body">
 							<div class="text-center mb-3">
-								<i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i>
-								<h5 class="mb-0">Login to your account</h5>
+							<img src="<?=base_url('');?>/assets/global_assets/images/pamasa.jpeg" class="rounded" width="150" height="100" alt="">
+								<br><br>
+								<!-- <i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-3 mt-1"></i> -->
+								<h5 class="mb-0">Connexion a votre compte</h5>
 								<?php
                 if (!empty($error)) {
                   ?>
@@ -62,7 +64,7 @@
                   <?php
                 }
                 ?>   
-								<span class="d-block text-muted">Your credentials</span>
+								<!-- <span class="d-block text-muted">Your credentials</span> -->
 							</div>
 
 							<div class="form-group form-group-feedback form-group-feedback-left">
@@ -83,11 +85,11 @@
 								<div class="form-check mb-0">
 								</div>
 
-								<a href="#" class="ml-auto">Forgot password?</a>
+								<!-- <a href="#" class="ml-auto">Forgot password?</a> -->
 							</div>
 
 							<div class="form-group">
-								<button type="submit" class="btn btn-primary btn-block">Sign in <i class="icon-circle-right2 ml-2"></i></button>
+								<button type="submit" class="btn btn-primary btn-block">Connexion</button>
 							</div>
 							<br>
 
